@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Would You Feel? – Grade 7</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sky: #e8f4fd;
+  --blue: #3b82f6;
+  --blue-dark: #1d4ed8;
+  --green: #22c55e;
+  --green-dark: #15803d;
+  --orange: #f97316;
+  --yellow: #fbbf24;
+  --pink: #ec4899;
+  --purple: #a855f7;
+  --red: #ef4444;
+  --bg: #f0f7ff;
+  --card: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --radius: 20px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 36px 24px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='10'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-emoji {
+  font-size: 52px;
+  display: block;
+  margin-bottom: 8px;
+  animation: bounce 2s ease-in-out infinite;
+}
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+.header h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(28px, 6vw, 46px);
+  color: white;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.header .subtitle {
+  color: rgba(255,255,255,0.85);
+  font-size: 15px;
+  margin-top: 6px;
+  font-weight: 600;
+}
+.header .hebrew {
+  color: rgba(255,255,255,0.75);
+  font-size: 14px;
+  margin-top: 4px;
+  direction: rtl;
+}
+.badges {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.badge {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 20px;
+}
+
+/* ── RESTORE BANNER ── */
+#restore-banner {
+  display: none;
+  background: #dcfce7;
+  border-bottom: 2px solid #86efac;
+  padding: 10px 24px;
+  font-size: 13px;
+  color: #166534;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+#restore-banner button {
+  margin-left: auto;
+  background: none;
+  border: 1px solid #86efac;
+  color: #166534;
+  padding: 4px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+}
+
+/* ── WORDBANK ── */
+.wordbank-wrap {
+  max-width: 800px;
+  margin: 28px auto 0;
+  padding: 0 16px;
+}
+.wordbank-card {
+  background: linear-gradient(135deg, #1e293b, #334155);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+.wordbank-card h3 {
+  color: var(--yellow);
+  font-family: 'Fredoka One', cursive;
+  font-size: 16px;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.wordbank-hebrew {
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+  margin-bottom: 14px;
+  direction: rtl;
+  text-align: right;
+}
+.wordbank-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.word-chip {
+  background: rgba(255,255,255,0.1);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  color: white;
+  padding: 5px 13px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+  position: relative;
+}
+.word-chip:hover { background: rgba(255,255,255,0.22); transform: translateY(-1px); }
+.word-chip .heb { display: block; font-size: 10px; color: rgba(255,255,255,0.55); font-weight: 400; margin-top: 1px; }
+.word-chip.flash { background: var(--green); border-color: var(--green); }
+
+/* ── PROGRESS ── */
+.progress-wrap {
+  max-width: 800px;
+  margin: 20px auto 0;
+  padding: 0 16px;
+}
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.progress-track {
+  height: 12px;
+  background: #dbeafe;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 10px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+
+/* ── MAIN CONTENT ── */
+.content {
+  max-width: 800px;
+  margin: 24px auto 60px;
+  padding: 0 16px;
+}
+
+/* ── PART HEADER ── */
+.part-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding: 18px 22px;
+  background: white;
+  border-radius: var(--radius);
+  border: 2px solid #dbeafe;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.part-icon {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+}
+.part-title h2 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 20px;
+  color: var(--text);
+}
+.part-title .part-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.part-title .part-heb { font-size: 13px; color: #7c3aed; margin-top: 2px; direction: rtl; font-weight: 700; }
+
+/* ── INSTRUCTIONS BOX ── */
+.instructions {
+  background: #fffbeb;
+  border: 2px dashed #fcd34d;
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.instructions strong { color: #92400e; }
+.instructions .heb-inst {
+  display: block;
+  margin-top: 8px;
+  direction: rtl;
+  text-align: right;
+  font-size: 13px;
+  color: #78350f;
+  font-weight: 600;
+  background: rgba(0,0,0,0.04);
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+/* ── QUESTION CARD ── */
+.q-card {
+  background: white;
+  border-radius: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.q-card:focus-within {
+  border-color: #818cf8;
+  box-shadow: 0 4px 20px rgba(129,140,248,0.2);
+}
+.q-card.done { border-color: var(--green); }
+
+.q-top {
+  padding: 16px 20px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.q-num {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fredoka One', cursive;
+  font-size: 16px;
+  color: white;
+  flex-shrink: 0;
+}
+.q-situation {
+  flex: 1;
+}
+.q-situation .en {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.4;
+}
+.q-situation .heb {
+  font-size: 13px;
+  color: var(--muted);
+  direction: rtl;
+  text-align: right;
+  margin-top: 3px;
+  font-weight: 600;
+}
+.q-emoji { font-size: 28px; flex-shrink: 0; }
+
+/* ── FILL FRAME ── */
+.fill-frame {
+  padding: 14px 20px 6px;
+  background: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 2.4;
+  color: var(--text);
+}
+.frame-gray { color: #94a3b8; font-style: italic; }
+.fill-in {
+  display: inline-block;
+  border: none;
+  border-bottom: 2.5px solid #818cf8;
+  background: transparent;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #4338ca;
+  outline: none;
+  padding: 2px 6px;
+  transition: border-color 0.2s;
+  vertical-align: middle;
+}
+.fill-in:focus { border-color: #4338ca; }
+.fill-in.em { min-width: 110px; }
+.fill-in.reason { min-width: 200px; }
+.fill-in.intens { min-width: 90px; }
+
+/* ── HINT BOX ── */
+.hint-row {
+  padding: 6px 20px 0;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.hint-label { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.hint-chip {
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+}
+.hint-chip:hover { background: #818cf8; color: white; }
+
+/* ── CHECK BTN ── */
+.check-row {
+  padding: 10px 20px 16px;
+}
+.check-btn {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 9px 22px;
+  border-radius: 12px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.check-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102,126,234,0.4); }
+.check-btn:disabled { opacity: 0.5; transform: none; cursor: not-allowed; }
+
+/* ── FEEDBACK ── */
+.fb-box {
+  margin: 0 20px 16px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  display: none;
+  font-weight: 600;
+}
+.fb-box.show { display: block; }
+.fb-box.ok { background: #dcfce7; border-left: 4px solid var(--green); color: #14532d; }
+.fb-box.warn { background: #fef9c3; border-left: 4px solid var(--yellow); color: #713f12; }
+.fb-box.err { background: #fee2e2; border-left: 4px solid var(--red); color: #7f1d1d; }
+
+/* ── SUBMIT ── */
+.submit-wrap {
+  background: linear-gradient(135deg, #1e293b, #334155);
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+  margin-top: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.submit-wrap h3 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 22px;
+  color: white;
+  margin-bottom: 6px;
+}
+.submit-wrap p { color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 20px; direction: rtl; }
+.submit-btn {
+  background: linear-gradient(135deg, #f97316, #ef4444);
+  color: white;
+  border: none;
+  padding: 14px 44px;
+  border-radius: 30px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 6px 20px rgba(249,115,22,0.4);
+  letter-spacing: 1px;
+}
+.submit-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(249,115,22,0.5); }
+.submit-btn:disabled { opacity: 0.4; transform: none; cursor: not-allowed; }
+
+/* ── SCORE ── */
+#score-panel { display: none; margin-top: 28px; }
+.score-card {
+  border-radius: var(--radius);
+  padding: 40px 24px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+.score-card.pass { background: linear-gradient(135deg, #064e3b, #065f46); }
+.score-card.fail { background: linear-gradient(135deg, #450a0a, #7f1d1d); }
+.score-num {
+  font-family: 'Fredoka One', cursive;
+  font-size: 90px;
+  line-height: 1;
+  margin: 12px 0 6px;
+}
+.score-card.pass .score-num { color: #4ade80; }
+.score-card.fail .score-num { color: #f87171; }
+.score-label { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+.score-msg { font-size: 20px; font-weight: 800; color: white; margin: 10px 0; }
+.score-detail { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 20px; }
+.retry-btn {
+  background: white; color: var(--text);
+  border: none; padding: 12px 32px;
+  border-radius: 24px; font-weight: 800;
+  font-size: 15px; cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  transition: all 0.2s;
+}
+.retry-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.3); }
+
+/* Colors per question number */
+.c1 { background: #f97316; }
+.c2 { background: #22c55e; }
+.c3 { background: #3b82f6; }
+.c4 { background: #ec4899; }
+.c5 { background: #a855f7; }
+.c6 { background: #f59e0b; }
+.c7 { background: #ef4444; }
+.c8 { background: #14b8a6; }
+.c9 { background: #6366f1; }
+.c10 { background: #84cc16; }
+.c11 { background: #f97316; }
+.c12 { background: #22c55e; }
+.c13 { background: #3b82f6; }
+.c14 { background: #ec4899; }
+.c15 { background: #a855f7; }
+</style>
+</head>
+<body>
+
+<div id="restore-banner">
+  <span>✅ המשך מאיפה שהפסקת! תשובותיך נשמרו.</span>
+  <button onclick="clearStorage()">🗑 התחל מחדש</button>
+</div>
+
+<div class="header">
+  <span class="header-emoji">🎭</span>
+  <h1>How Would You Feel?</h1>
+  <div class="subtitle">Feelings &amp; Emotions – Grade 7</div>
+  <div class="hebrew">רגשות ותחושות – כיתה ז׳</div>
+  <div class="badges">
+    <span class="badge">📋 Part A – 15 questions</span>
+    <span class="badge">🎯 Pass: 80/100</span>
+    <span class="badge">💾 Auto-saved</span>
+  </div>
+</div>
+
+<div class="wordbank-wrap">
+  <div class="wordbank-card">
+    <h3>📚 Word Bank – לחץ על מילה להדגשה</h3>
+    <div class="wordbank-hebrew">מאגר המילים – השתמש במילים האלו בתשובות שלך</div>
+    <div class="wordbank-grid" id="wordBank"></div>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-top">
+    <span>Progress / התקדמות</span>
+    <span id="progressPct">0 / 15 complete</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="content">
+  <div class="part-header">
+    <div class="part-icon">💬</div>
+    <div class="part-title">
+      <h2>Part A – How Would You Feel If…?</h2>
+      <div class="part-sub">Complete all 15 sentences using the word bank.</div>
+      <div class="part-heb">השלם את כל 15 המשפטים. השתמש במילים מהמאגר למעלה.</div>
+    </div>
+  </div>
+
+  <div class="instructions">
+    <strong>📝 How to answer:</strong> Choose an emotion from the word bank, explain <em>why</em> you would feel that way, and add an intensifier (a word that shows <em>how much</em> you feel it).
+    <span class="heb-inst">
+      איך לענות: בחר רגש ממאגר המילים ← הסבר <em>למה</em> אתה מרגיש כך ← הוסף מגביר עוצמה (מילה שמראה <em>כמה</em> אתה מרגיש).<br>
+      מגבירי עוצמה לדוגמה: slightly (קצת), fairly (למדי), really (ממש), extremely (מאוד), absolutely (לחלוטין)
+    </span>
+  </div>
+
+  <div id="questions-container"></div>
+
+  <div class="submit-wrap">
+    <h3>🏁 Ready? Submit!</h3>
+    <p>לחץ כשסיימת את כל 15 השאלות</p>
+    <button class="submit-btn" id="submitBtn" onclick="submitAll()">🚀 Submit for Score!</button>
+  </div>
+
+  <div id="score-panel">
+    <div class="score-card" id="scoreCard">
+      <div class="score-label">Your Score / הציון שלך</div>
+      <div class="score-num" id="scoreNum">—</div>
+      <div class="score-msg" id="scoreMsg"></div>
+      <div class="score-detail" id="scoreDetail"></div>
+      <button class="retry-btn" id="retryBtn" onclick="retryExam()" style="display:none">🔄 Try Again / נסה שוב</button>
+    </div>
+  </div>
+</div>
+
+<datalist id="wb-list"></datalist>
+<datalist id="int-list"></datalist>
+
+<script>
+const STORAGE_KEY = 'feelings_g7_partA';
+
+const SITUATIONS = [
+  { en: "…everyone forgot your birthday.", heb: "…כולם שכחו את יום ההולדת שלך.", emoji: "🎂" },
+  { en: "…you won the lottery.", heb: "…זכית בלוטו.", emoji: "🎰" },
+  { en: "…you had an important test tomorrow.", heb: "…מחר יש לך מבחן חשוב.", emoji: "📝" },
+  { en: "…you found out you were adopted.", heb: "…גילית שאתה מאומץ.", emoji: "😮" },
+  { en: "…you were going on holiday tomorrow.", heb: "…מחר אתה יוצא לחופשה.", emoji: "✈️" },
+  { en: "…you had just run 10 kilometres.", heb: "…רצת עכשיו 10 קילומטר.", emoji: "🏃" },
+  { en: "…someone stole your wallet.", heb: "…מישהו גנב לך את הארנק.", emoji: "👛" },
+  { en: "…your father went missing.", heb: "…אביך נעלם.", emoji: "😰" },
+  { en: "…you got 100% on a test.", heb: "…קיבלת 100 במבחן.", emoji: "🥇" },
+  { en: "…you got bad medical news.", heb: "…קיבלת חדשות רפואיות רעות.", emoji: "🏥" },
+  { en: "…you got lost in the desert.", heb: "…אבדת במדבר.", emoji: "🏜️" },
+  { en: "…you could meet your favourite celebrity.", heb: "…תוכל לפגוש את הסלבריטי האהוב עליך.", emoji: "⭐" },
+  { en: "…you won first prize in a competition.", heb: "…זכית במקום ראשון בתחרות.", emoji: "🏆" },
+  { en: "…you bought a car and it broke down the next day.", heb: "…קנית מכונית והיא התקלקלה למחרת.", emoji: "🚗" },
+  { en: "…everyone asked for your advice.", heb: "…כולם ביקשו את עצתך.", emoji: "🙋" }
+];
+
+const WORDBANK = [
+  { en: "disappointed", heb: "מאוכזב" },
+  { en: "devastated",   heb: "הרוס/שבור" },
+  { en: "embarrassed",  heb: "נבוך" },
+  { en: "thrilled",     heb: "נרגש מאוד" },
+  { en: "relieved",     heb: "מוקל" },
+  { en: "anxious",      heb: "חרד/מוטרד" },
+  { en: "overwhelmed",  heb: "מוצף" },
+  { en: "furious",      heb: "זועם" },
+  { en: "betrayed",     heb: "בגוד בו" },
+  { en: "proud",        heb: "גאה" },
+  { en: "grateful",     heb: "אסיר תודה" },
+  { en: "uneasy",       heb: "לא בנוח" },
+  { en: "shocked",      heb: "בהלם" },
+  { en: "heartbroken",  heb: "שבור לב" },
+  { en: "frustrated",   heb: "מתוסכל" },
+  { en: "confident",    heb: "בטוח בעצמו" },
+  { en: "exhausted",    heb: "탈진 / מותש" },
+  { en: "excited",      heb: "נרגש" },
+  { en: "tense",        heb: "מתוח" },
+  { en: "hopeful",      heb: "מלא תקווה" }
+];
+
+const INTENSIFIERS = ["slightly","fairly","really","extremely","absolutely","pretty","quite","very","deeply","utterly","incredibly","totally","a little","a bit","so","super"];
+
+// Good emotion hints per situation
+const GOOD_HINTS = [
+  ["disappointed","devastated","heartbroken","sad","hurt"],
+  ["thrilled","excited","overwhelmed","shocked","grateful"],
+  ["anxious","tense","nervous","uneasy","worried"],
+  ["shocked","devastated","confused","overwhelmed","heartbroken"],
+  ["excited","thrilled","hopeful","anxious","happy"],
+  ["exhausted","proud","relieved","satisfied","tired"],
+  ["furious","betrayed","shocked","devastated","frustrated"],
+  ["devastated","heartbroken","anxious","overwhelmed","panicked"],
+  ["proud","thrilled","excited","relieved","grateful"],
+  ["devastated","heartbroken","shocked","overwhelmed","anxious"],
+  ["anxious","terrified","overwhelmed","hopeful","exhausted"],
+  ["thrilled","excited","nervous","overwhelmed","grateful"],
+  ["thrilled","proud","excited","overjoyed","grateful"],
+  ["furious","frustrated","betrayed","disappointed","devastated"],
+  ["confident","proud","grateful","overwhelmed","pleased"]
+];
+
+// ── BUILD WORDBANK ──
+const wbEl = document.getElementById('wordBank');
+WORDBANK.forEach(w => {
+  const span = document.createElement('span');
+  span.className = 'word-chip';
+  span.innerHTML = `${w.en}<span class="heb">${w.heb}</span>`;
+  span.onclick = () => {
+    navigator.clipboard.writeText(w.en).catch(() => {});
+    span.classList.add('flash');
+    setTimeout(() => span.classList.remove('flash'), 800);
+  };
+  wbEl.appendChild(span);
+});
+
+// datalists
+WORDBANK.forEach(w => {
+  const o = document.createElement('option'); o.value = w.en;
+  document.getElementById('wb-list').appendChild(o);
+});
+INTENSIFIERS.forEach(w => {
+  const o = document.createElement('option'); o.value = w;
+  document.getElementById('int-list').appendChild(o);
+});
+
+// ── BUILD QUESTIONS ──
+const colors = ['c1','c2','c3','c4','c5','c6','c7','c8','c9','c10','c11','c12','c13','c14','c15'];
+const container = document.getElementById('questions-container');
+
+SITUATIONS.forEach((sit, i) => {
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.id = `qcard-${i}`;
+  card.innerHTML = `
+    <div class="q-top">
+      <div class="q-num ${colors[i]}">${i+1}</div>
+      <div class="q-situation">
+        <div class="en">${sit.en}</div>
+        <div class="heb">${sit.heb}</div>
+      </div>
+      <div class="q-emoji">${sit.emoji}</div>
+    </div>
+    <div class="fill-frame">
+      <span class="frame-gray">I would feel </span>
+      <input class="fill-in em" id="q${i}-feel" placeholder="emotion…" list="wb-list" autocomplete="off" oninput="onInput(${i})">
+      <span class="frame-gray"> because </span>
+      <input class="fill-in reason" id="q${i}-because" placeholder="reason…" oninput="onInput(${i})">
+      <span class="frame-gray">. I would be </span>
+      <input class="fill-in intens" id="q${i}-int" placeholder="intensifier…" list="int-list" autocomplete="off" oninput="onInput(${i})">
+      <span class="frame-gray"> </span>
+      <input class="fill-in em" id="q${i}-feel2" placeholder="emotion…" list="wb-list" autocomplete="off" oninput="onInput(${i})">
+      <span class="frame-gray">.</span>
+    </div>
+    <div class="hint-row">
+      <span class="hint-label">💡 Try:</span>
+      ${GOOD_HINTS[i].slice(0,3).map(h => `<button class="hint-chip" onclick="useHint(${i},'${h}')">${h}</button>`).join('')}
+      <span class="hint-label" style="margin-left:8px">Intensifiers:</span>
+      <button class="hint-chip" onclick="useIntens(${i},'really')">really</button>
+      <button class="hint-chip" onclick="useIntens(${i},'extremely')">extremely</button>
+      <button class="hint-chip" onclick="useIntens(${i},'absolutely')">absolutely</button>
+    </div>
+    <div class="check-row">
+      <button class="check-btn" onclick="checkQ(this,${i})">✦ Check / בדוק</button>
+    </div>
+    <div class="fb-box" id="fb-${i}"></div>`;
+  container.appendChild(card);
+});
+
+function useHint(i, word) {
+  const el = document.getElementById(`q${i}-feel`);
+  el.value = word;
+  el.focus();
+  onInput(i);
+}
+function useIntens(i, word) {
+  const el = document.getElementById(`q${i}-int`);
+  el.value = word;
+  el.focus();
+  onInput(i);
+}
+
+// ── INPUT HANDLER ──
+let completedCount = 0;
+function onInput(i) {
+  const feel = (document.getElementById(`q${i}-feel`)?.value||'').trim();
+  const because = (document.getElementById(`q${i}-because`)?.value||'').trim();
+  const int_ = (document.getElementById(`q${i}-int`)?.value||'').trim();
+  const feel2 = (document.getElementById(`q${i}-feel2`)?.value||'').trim();
+  const done = feel && because && int_ && feel2;
+  document.getElementById(`qcard-${i}`).classList.toggle('done', done);
+  updateProgress();
+  saveToStorage();
+}
+
+function updateProgress() {
+  let done = 0;
+  for (let i = 0; i < 15; i++) {
+    const feel = (document.getElementById(`q${i}-feel`)?.value||'').trim();
+    const because = (document.getElementById(`q${i}-because`)?.value||'').trim();
+    const int_ = (document.getElementById(`q${i}-int`)?.value||'').trim();
+    const feel2 = (document.getElementById(`q${i}-feel2`)?.value||'').trim();
+    if (feel && because && int_ && feel2) done++;
+  }
+  const pct = Math.round((done / 15) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = `${done} / 15 complete`;
+}
+
+// ── CHECK SINGLE QUESTION ──
+function isGoodEmotion(i, word) {
+  const w = word.toLowerCase().trim();
+  const good = GOOD_HINTS[i] || [];
+  return good.some(g => w.includes(g) || g.includes(w)) ||
+    WORDBANK.some(wb => wb.en === w);
+}
+function isIntensifier(word) {
+  return INTENSIFIERS.some(i => word.toLowerCase().includes(i));
+}
+
+function checkQ(btn, i) {
+  const feel   = (document.getElementById(`q${i}-feel`).value||'').trim();
+  const because= (document.getElementById(`q${i}-because`).value||'').trim();
+  const int_   = (document.getElementById(`q${i}-int`).value||'').trim();
+  const feel2  = (document.getElementById(`q${i}-feel2`).value||'').trim();
+
+  if (!feel || !because || !int_ || !feel2) {
+    showFb(i, 'warn', '⚠️ Please fill in all four blanks! | מלא את כל ארבעת השדות!');
+    return;
+  }
+
+  const issues = [];
+
+  if (!isGoodEmotion(i, feel))
+    issues.push(`"${feel}" might not be the best emotion here. Try: <em>${GOOD_HINTS[i].slice(0,2).join(' / ')}</em>`);
+  if (because.length < 4)
+    issues.push('Your reason is too short — add more detail! | ההסבר שלך קצר מדי');
+  if (!isIntensifier(int_))
+    issues.push(`"${int_}" is not an intensifier. Try: <em>really / extremely / absolutely</em>`);
+
+  if (issues.length === 0) {
+    showFb(i, 'ok', `✅ <strong>Great answer!</strong> Your emotion fits and your explanation makes sense! 🎉<br><small>תשובה מצוינת! הרגש מתאים וההסבר הגיוני.</small>`);
+  } else if (issues.length === 1) {
+    showFb(i, 'warn', `⚠️ <strong>Almost!</strong> Just one thing: ${issues[0]}`);
+  } else {
+    showFb(i, 'err', `❌ <strong>Let's fix this:</strong><br>• ${issues.join('<br>• ')}`);
+  }
+}
+
+function showFb(i, type, html) {
+  const el = document.getElementById(`fb-${i}`);
+  el.className = `fb-box show ${type}`;
+  el.innerHTML = html;
+}
+
+// ── SCORE + SUBMIT ──
+function submitAll() {
+  let score = 0;
+  let answered = 0;
+
+  for (let i = 0; i < 15; i++) {
+    const feel   = (document.getElementById(`q${i}-feel`)?.value||'').trim();
+    const because= (document.getElementById(`q${i}-because`)?.value||'').trim();
+    const int_   = (document.getElementById(`q${i}-int`)?.value||'').trim();
+    const feel2  = (document.getElementById(`q${i}-feel2`)?.value||'').trim();
+    if (!feel || !because) continue;
+    answered++;
+    let pts = 0;
+    if (isGoodEmotion(i, feel)) pts += 4;
+    else pts += 2; // partial for any real word
+    if (because.length >= 5) pts += 2;
+    if (isIntensifier(int_)) pts += 2;
+    if (feel2 && WORDBANK.some(w => w.en === feel2.toLowerCase())) pts += 2;
+    else if (feel2.length > 2) pts += 1;
+    score += Math.min(pts, 10); // max 10 per question (but we scale to 100)
+  }
+
+  // scale: answered questions × max pts → 100
+  const rawMax = answered > 0 ? answered * 10 : 150;
+  const total = Math.min(Math.round((score / 150) * 100), 100);
+
+  const panel = document.getElementById('score-panel');
+  const card  = document.getElementById('scoreCard');
+  panel.style.display = 'block';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  document.getElementById('scoreNum').textContent = total;
+  card.className = `score-card ${total >= 80 ? 'pass' : 'fail'}`;
+
+  if (total >= 80) {
+    document.getElementById('scoreMsg').textContent =
+      total >= 95 ? '🏆 Outstanding! מעולה!' :
+      total >= 90 ? '⭐ Excellent! יפה מאוד!' :
+                    '🎉 Well done! כל הכבוד!';
+    document.getElementById('scoreDetail').innerHTML =
+      `You answered ${answered} out of 15 questions.<br>ענית על ${answered} מתוך 15 שאלות.`;
+  } else {
+    document.getElementById('scoreMsg').textContent = '📖 Not quite — try again! / עוד קצת!';
+    document.getElementById('scoreDetail').innerHTML =
+      `You answered ${answered}/15 questions. Go back and use the ✦ Check buttons to improve your answers!<br>
+       ענית על ${answered}/15. חזור ולחץ על ✦ בדוק כדי לשפר את התשובות.`;
+    document.getElementById('retryBtn').style.display = 'inline-block';
+  }
+}
+
+function retryExam() {
+  document.getElementById('score-panel').style.display = 'none';
+  document.getElementById('submitBtn').disabled = false;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── LOCALSTORAGE ──
+function saveToStorage() {
+  const data = {};
+  for (let i = 0; i < 15; i++) {
+    ['feel','because','int','feel2'].forEach(f => {
+      const el = document.getElementById(`q${i}-${f}`);
+      if (el) data[`q${i}-${f}`] = el.value;
+    });
+  }
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+function loadFromStorage() {
+  let data;
+  try { data = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); } catch(e) { return; }
+  if (!data || !Object.keys(data).length) return;
+
+  for (let i = 0; i < 15; i++) {
+    ['feel','because','int','feel2'].forEach(f => {
+      const el = document.getElementById(`q${i}-${f}`);
+      if (el && data[`q${i}-${f}`] !== undefined) el.value = data[`q${i}-${f}`];
+    });
+    // Mark done cards
+    const feel = (document.getElementById(`q${i}-feel`)?.value||'').trim();
+    const because = (document.getElementById(`q${i}-because`)?.value||'').trim();
+    const int_ = (document.getElementById(`q${i}-int`)?.value||'').trim();
+    const feel2 = (document.getElementById(`q${i}-feel2`)?.value||'').trim();
+    if (feel && because && int_ && feel2)
+      document.getElementById(`qcard-${i}`)?.classList.add('done');
+  }
+
+  const banner = document.getElementById('restore-banner');
+  if (banner) banner.style.display = 'flex';
+  updateProgress();
+}
+
+function clearStorage() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  location.reload();
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => {
+  loadFromStorage();
+  updateProgress();
+});
+</script>
+</body>
+</html>
